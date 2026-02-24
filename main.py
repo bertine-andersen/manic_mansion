@@ -3,8 +3,12 @@ from konstanter import *
 from klasser import *
 
 # Setter opp rutenettet vårt:
-spillbrett = Spillbrett(10,20)
-bredde,hoyde = spillbrett.getWindowSize()
+frisone1 = pg.Rect(0,0,100,200)
+frisone2 = pg.Rect(100,0,200,200)
+faresone = pg.Rect(300,0,100,200)
+
+spillbrett = Spillbrett(frisone1,frisone2,faresone)
+bredde,hoyde = (400,200)
 
 pg.init()
 vindu = pg.display.set_mode( (bredde, hoyde) )
@@ -23,14 +27,11 @@ while running:
             mx, my = event.pos
             kolonne = mx // CELLE_STR
             rad = my // CELLE_STR
-            rutenett.klikk(rad, kolonne)
+            #rutenett.klikk(rad, kolonne)
             # Nullstill frameCounter (Så man har tid til å klikke på flere før animasjonen fortsetter):
             framecounter = 1
 
 
-    # Hvert sekund (eller oftere...):
-    if framecounter % (FPS//2) == 0:
-        spillbrett.vandring()
 
 
     # Tegner objektene våre (på et blankt hvitt lerret):
