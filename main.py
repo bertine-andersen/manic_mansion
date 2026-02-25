@@ -23,7 +23,7 @@ while running:
             mx, my = event.pos
             kolonne = mx // CELLE_STR
             rad = my // CELLE_STR
-            rutenett.klikk(rad, kolonne)
+            spillbrett.klikk(rad, kolonne)
             # Nullstill frameCounter (Så man har tid til å klikke på flere før animasjonen fortsetter):
             framecounter = 1
 

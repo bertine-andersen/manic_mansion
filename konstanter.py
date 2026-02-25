@@ -13,5 +13,3 @@ YELLOW = (230,220,0)
 FARGER: list[tuple[int, int, int]] = [RED, GREEN, GREEN_DARK, BLUE, PURPLE, ORANGE, YELLOW]
 
 FPS = 60
-
-CELLE_STR = 40
