@@ -4,14 +4,14 @@ from konstanter import *
 from dataclasses import dataclass
 
 @dataclass(slots=True)
-class SpillBrett:
+class Spillbrett:
     # Områder på spillbrettet
     frisone1: pg.Rect
     frisone2: pg.Rect
-    fareSone: pg.Rect
+    faresone: pg.Rect
 
     # Sauer plukket opp
-    poeng: int
+    poeng: int = 0
 
     def oppstart(self):
         pass
@@ -24,6 +24,11 @@ class SpillBrett:
 
     def nyttSpøkelse(self):
         pass
+
+    def draw(self,vindu:pg.Surface):
+        pg.draw.rect(vindu,GREEN,self.frisone1)
+        pg.draw.rect(vindu,WHITE,self.frisone2)
+        pg.draw.rect(vindu,GREEN,self.faresone)
 
 @dataclass(slots=True)
 class Spiller:
