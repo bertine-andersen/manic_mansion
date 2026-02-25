@@ -12,4 +12,13 @@ YELLOW = (230,220,0)
 # Liste med alle fargene (uten hvit og svart)
 FARGER: list[tuple[int, int, int]] = [RED, GREEN, GREEN_DARK, BLUE, PURPLE, ORANGE, YELLOW]
 
+VINDU_BREDDE = 1000
+VINDU_HØYDE = 600
+
+FRISONE_BREDDE = 100
+
+SPILLER_STØRRELSE = 30
+SAU_STØRRELSE = 25
+HINDRING_STØRRELSE = 40
+
 FPS = 60

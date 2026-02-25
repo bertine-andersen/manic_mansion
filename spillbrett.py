@@ -6,10 +6,9 @@ from ting import *
 @dataclass(slots=True)
 class Spillbrett:
     # Områder på spillbrettet
-    HØYDE = 500
-    frisone1 = pg.Rect(0,0,100,HØYDE)
-    faresone = pg.Rect(100,0,500,HØYDE)
-    frisone2 = pg.Rect(600,0,100,HØYDE)
+    frisone1 = pg.Rect(0,0,FRISONE_BREDDE,VINDU_HØYDE)
+    faresone = pg.Rect(FRISONE_BREDDE,0,VINDU_BREDDE-2*FRISONE_BREDDE,VINDU_HØYDE)
+    frisone2 = pg.Rect(VINDU_BREDDE-FRISONE_BREDDE,0,FRISONE_BREDDE,VINDU_HØYDE)
 
     # Sauer plukket opp
     poeng: int = 0
@@ -17,23 +16,34 @@ class Spillbrett:
     # Status for spillet
     running: bool = True
 
-    def størrelse(self) -> tuple[int,int]:
-        bredde = self.frisone1.width+self.frisone2.width+self.faresone.width
-        høyde = self.frisone1.height
-        return (bredde, høyde)
-    def update(self):
-        pass
+    # Ting
+    spiller = Spiller()
+
+    hindringer = [Hindring(),Hindring(),Hindring()]
+
+    sauer = [Sau()]
 
     def nyHindring(self):
-        pass
+        self.hindringer.append(Hindring())
 
     def nySau(self):
-        pass
+        self.sauer.append(Sau())
 
     def nyttSpøkelse(self):
         pass
+    
+    def update(self):
+        pass
 
-    def draw(self,vindu:pg.Surface):
+    def draw(self,vindu:pg.Surface) -> None:
         pg.draw.rect(vindu,GREEN,self.frisone1)
         pg.draw.rect(vindu,WHITE,self.faresone)
         pg.draw.rect(vindu,GREEN,self.frisone2)
+
+        self.spiller.draw(vindu)
+
+        for hindring in self.hindringer:
+            hindring.draw(vindu)
+
+        for sau in self.sauer:
+            sau.draw(vindu)

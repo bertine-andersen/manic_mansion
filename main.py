@@ -6,7 +6,7 @@ from spillbrett import Spillbrett
 spillbrett = Spillbrett()
 
 pg.init()
-vindu = pg.display.set_mode(spillbrett.størrelse())
+vindu = pg.display.set_mode((VINDU_BREDDE,VINDU_HØYDE))
 clock = pg.time.Clock()
 
 while spillbrett.running:

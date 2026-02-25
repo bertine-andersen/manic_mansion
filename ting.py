@@ -2,11 +2,13 @@
 import pygame as pg
 from konstanter import *
 from dataclasses import dataclass
+import random as rd
 
 @dataclass(slots=True)
 class Spiller:
     # Områder på spillbrettet
-    rect: pg.Rect
+    rect = pg.Rect((FRISONE_BREDDE-SPILLER_STØRRELSE)//2,
+                   (VINDU_HØYDE-SPILLER_STØRRELSE)//2,SPILLER_STØRRELSE,SPILLER_STØRRELSE)
 
     levende: bool = True
     harSau: bool = False
@@ -26,13 +28,18 @@ class Spiller:
     def update(self):
         pass
 
-    def draw(self):
-        pass
+    def draw(self,vindu:pg.Surface) -> None:
+        pg.draw.rect(vindu,RED,self.rect)
 
-@dataclass(slots=True)
+
 class Sau:
-    rect: pg.Rect
-    plukketOpp: bool
+    def __init__(self):
+        self.rect = pg.Rect(VINDU_BREDDE-(FRISONE_BREDDE+SAU_STØRRELSE)//2,
+                    rd.randint(0,VINDU_HØYDE-SAU_STØRRELSE),SAU_STØRRELSE,SAU_STØRRELSE)
+        self.plukketOpp: bool = False
+
+    def draw(self,vindu:pg.Surface):
+        pg.draw.rect(vindu,WHITE,self.rect)
 
 @dataclass(slots=True)
 class Spøkelse:
@@ -44,6 +51,10 @@ class Spøkelse:
     def draw(self):
         pass
 
-@dataclass(slots=True)
 class Hindring:
-    rect: pg.Rect
+    def __init__(self):
+        self.rect = pg.Rect(rd.randint(FRISONE_BREDDE,VINDU_BREDDE-FRISONE_BREDDE-HINDRING_STØRRELSE),
+                    rd.randint(0,VINDU_HØYDE-HINDRING_STØRRELSE),HINDRING_STØRRELSE,HINDRING_STØRRELSE)
+    
+    def draw(self,vindu:pg.Surface):
+        pg.draw.rect(vindu,BLACK,self.rect)
