@@ -1,7 +1,6 @@
 from __future__ import annotations
 import pygame as pg
 from konstanter import *
-from dataclasses import dataclass
 import random as rd
 
 
