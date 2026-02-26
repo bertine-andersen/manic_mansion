@@ -1,4 +1,4 @@
-#from __future__ import annotations
+from __future__ import annotations
 import pygame as pg
 from konstanter import *
 from dataclasses import dataclass
@@ -18,8 +18,10 @@ class Spiller:
     def plukkOpp(self):
         pass
 
-    def treffSpøkelse(self):
-        pass
+    def treffSpøkelse(self, spøkelser: list[Spøkelse]):
+        for spøkelse in spøkelser:
+            if self.rect.colliderect(spøkelse):
+                self.levende = False
 
     def hindret(self, hindringer: list[Hindring]):
         for hindring in hindringer:
@@ -34,7 +36,7 @@ class Spiller:
         else:
             return False
 
-    def update(self, hindringer: list[Hindring]):
+    def update(self, hindringer: list[Hindring], spøkelser: list[Spøkelse]):
         keys = pg.key.get_pressed()
 
         if keys[pg.K_UP]:
@@ -54,8 +56,7 @@ class Spiller:
             if self.utenforKant() or self.hindret(hindringer):
                 self.rect.x -= SPILLER_FART
 
-
-
+        self.treffSpøkelse(spøkelser)
 
     def draw(self,vindu: pg.Surface) -> None:
         vindu.blit(self.spiller_img, self.rect) 
@@ -100,6 +101,7 @@ class Spøkelse:
 
     def draw(self, vindu:pg.Surface):
         vindu.blit(self.spøkelse_img, self.rect)
+
 
 class Hindring:
     def __init__(self):
