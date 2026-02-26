@@ -1,3 +1,8 @@
+from pathlib import Path
+
+IMAGE_DIR = Path(__file__).parent/"bilder"
+BILDE_SIZE = 64
+
 WHITE = (255, 255, 255)
 BLACK = (0,0,0)
 GREY = (170,170,170)

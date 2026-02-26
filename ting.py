@@ -13,6 +13,7 @@ class Spiller:
 
         self.levende: bool = True
         self.harSau: bool = False
+        self.spiller_img = pg.image.load(IMAGE_DIR / "spiller.png")
 
     def plukkOpp(self):
         pass
@@ -56,8 +57,8 @@ class Spiller:
 
 
 
-    def draw(self,vindu:pg.Surface) -> None:
-        pg.draw.rect(vindu,RED,self.rect)
+    def draw(self,vindu: pg.Surface) -> None:
+        vindu.blit(self.spiller_img, self.rect) 
 
 
 class Sau:
@@ -65,24 +66,27 @@ class Sau:
         self.rect = pg.Rect(VINDU_BREDDE-(FRISONE_BREDDE+SAU_STØRRELSE)//2,
                     rd.randint(0,VINDU_HØYDE-SAU_STØRRELSE),SAU_STØRRELSE,SAU_STØRRELSE)
         self.plukketOpp: bool = False
+        self.sau_img = pg.image.load(IMAGE_DIR / "sau.png")
 
     def draw(self,vindu:pg.Surface):
-        pg.draw.rect(vindu,WHITE,self.rect)
+        vindu.blit(self.sau_img, self.rect)
 
 @dataclass(slots=True)
 class Spøkelse:
     rect: pg.Rect
+    spøkelse_img = pg.image.load(IMAGE_DIR / "spøkelse.png")
     
     def update(self):
         pass
 
-    def draw(self):
-        pass
+    def draw(self,vindu:pg.Surface):
+        vindu.blit(self.spøkelse_img, self.rect)
 
 class Hindring:
     def __init__(self):
         self.rect = pg.Rect(rd.randint(FRISONE_BREDDE,VINDU_BREDDE-FRISONE_BREDDE-HINDRING_STØRRELSE),
                     rd.randint(0,VINDU_HØYDE-HINDRING_STØRRELSE),HINDRING_STØRRELSE,HINDRING_STØRRELSE)
+        self.stein_img = pg.image.load(IMAGE_DIR / "stein.png")
     
     def draw(self,vindu:pg.Surface):
-        pg.draw.rect(vindu,BLACK,self.rect)
+        vindu.blit(self.stein_img, self.rect)
