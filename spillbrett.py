@@ -3,7 +3,7 @@ from konstanter import *
 from ting import *
 
 class Spillbrett:
-    def __init__(self):
+    def __init__(self) -> None:
         # Områder på spillbrettet
         self.frisone1 = pg.Rect(0,0,FRISONE_BREDDE,VINDU_HØYDE)
         self.faresone = pg.Rect(FRISONE_BREDDE,0,VINDU_BREDDE-2*FRISONE_BREDDE,VINDU_HØYDE)
@@ -26,16 +26,16 @@ class Spillbrett:
 
         self.font = pg.font.SysFont(["arial", "helvetica"], 32)
 
-    def nyHindring(self):
+    def nyHindring(self) -> None:
         self.hindringer.append(Hindring())
 
-    def nySau(self):
+    def nySau(self) -> None:
         self.sauer.append(Sau())
 
-    def nyttSpøkelse(self):
+    def nyttSpøkelse(self) -> None:
         self.spøkelser.append(Spøkelse())
 
-    def fåPoeng(self):
+    def fåPoeng(self) -> None:
         self.poeng += 1
         self.spiller.harSau = False
 
@@ -44,7 +44,7 @@ class Spillbrett:
         self.nyttSpøkelse()
 
     
-    def update(self):
+    def update(self) -> None:
         self.spiller.update(self.hindringer, self.spøkelser, self.sauer)
         if not self.spiller.harSau:
             self.sauer = self.spiller.plukkOppSau(self.sauer)
