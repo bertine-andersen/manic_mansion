@@ -1,4 +1,4 @@
-#from __future__ import annotations
+from __future__ import annotations
 import pygame as pg
 from konstanter import *
 from dataclasses import dataclass
@@ -13,13 +13,16 @@ class Spiller:
 
         self.levende: bool = True
         self.harSau: bool = False
-        self.spiller_img = pg.image.load(IMAGE_DIR / "spiller.png")
+        self.spiller_raw = pg.image.load(IMAGE_DIR / "spiller.png")
+        self.spiller_img = pg.transform.scale(self.spiller_raw,(SPILLER_STØRRELSE,SPILLER_STØRRELSE))
 
     def plukkOpp(self):
         pass
 
-    def treffSpøkelse(self):
-        pass
+    def treffSpøkelse(self, spøkelser: list[Spøkelse]):
+        for spøkelse in spøkelser:
+            if self.rect.colliderect(spøkelse):
+                self.levende = False
 
     def hindret(self, hindringer: list[Hindring]):
         for hindring in hindringer:
@@ -34,7 +37,7 @@ class Spiller:
         else:
             return False
 
-    def update(self, hindringer: list[Hindring]):
+    def update(self, hindringer: list[Hindring], spøkelser: list[Spøkelse]):
         fart = SPILLER_FART
         if self.harSau:
             fart = fart // 1.5
@@ -57,8 +60,7 @@ class Spiller:
             if self.utenforKant() or self.hindret(hindringer):
                 self.rect.x -= SPILLER_FART
 
-
-
+        self.treffSpøkelse(spøkelser)
 
     def draw(self,vindu: pg.Surface) -> None:
         vindu.blit(self.spiller_img, self.rect) 
@@ -69,23 +71,28 @@ class Sau:
         self.rect = pg.Rect(VINDU_BREDDE-(FRISONE_BREDDE+SAU_STØRRELSE)//2,
                     rd.randint(0,VINDU_HØYDE-SAU_STØRRELSE),SAU_STØRRELSE,SAU_STØRRELSE)
         self.plukketOpp: bool = False
-        self.sau_img = pg.image.load(IMAGE_DIR / "sau.png")
+        self.sau_raw = pg.image.load(IMAGE_DIR / "sau.png")
+        self.sau_img = pg.transform.scale(self.sau_raw,(SAU_STØRRELSE,SAU_STØRRELSE))
 
     def draw(self,vindu:pg.Surface):
         vindu.blit(self.sau_img, self.rect)
 
-@dataclass(slots=True)
+
 class Spøkelse:
-    rect = pg.Rect(
-            rd.randint(FRISONE_BREDDE, VINDU_BREDDE - FRISONE_BREDDE - SPØKELSE_STØRRELSE),
-            rd.randint(0, VINDU_HØYDE - SPØKELSE_STØRRELSE),
-            SPØKELSE_STØRRELSE,
-            SPØKELSE_STØRRELSE
+    def __init__(self) -> None:
+    
+        self.rect = pg.Rect(
+                rd.randint(FRISONE_BREDDE, VINDU_BREDDE - FRISONE_BREDDE - SPØKELSE_STØRRELSE),
+                rd.randint(0, VINDU_HØYDE - SPØKELSE_STØRRELSE),
+                SPØKELSE_STØRRELSE,
+                SPØKELSE_STØRRELSE
         )
-    spøkelse_img = pg.image.load(IMAGE_DIR / "spøkelse.png")
-    vx: int = 3
-    vy: int = 3
-    kollidert: bool = False
+        self.vx: int = 3
+        self.vy: int = 3
+        self.kollidert: bool = False
+
+        self.spøkelse_raw = pg.image.load(IMAGE_DIR / "spøkelse.png")
+        self.spøkelse_img = pg.transform.scale(self.spøkelse_raw,(SPILLER_STØRRELSE,SPØKELSE_STØRRELSE))
     
     def update(self):
         self.rect.x += self.vx
@@ -104,11 +111,13 @@ class Spøkelse:
     def draw(self, vindu:pg.Surface):
         vindu.blit(self.spøkelse_img, self.rect)
 
+
 class Hindring:
     def __init__(self):
         self.rect = pg.Rect(rd.randint(FRISONE_BREDDE,VINDU_BREDDE-FRISONE_BREDDE-HINDRING_STØRRELSE),
                     rd.randint(0,VINDU_HØYDE-HINDRING_STØRRELSE),HINDRING_STØRRELSE,HINDRING_STØRRELSE)
-        self.stein_img = pg.image.load(IMAGE_DIR / "stein.png")
+        self.stein_raw = pg.image.load(IMAGE_DIR / "stein.png")
+        self.stein_img = pg.transform.scale(self.stein_raw,(HINDRING_STØRRELSE,HINDRING_STØRRELSE))
     
     def draw(self,vindu:pg.Surface):
         vindu.blit(self.stein_img, self.rect)

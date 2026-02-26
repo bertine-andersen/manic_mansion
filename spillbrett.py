@@ -35,10 +35,14 @@ class Spillbrett:
         self.spøkelser.append(Spøkelse())
     
     def update(self):
-        self.spiller.update(self.hindringer)
+        self.spiller.update(self.hindringer, self.spøkelser)
+
+        if not self.spiller.levende:
+            self.running = False
 
         for spøkelse in self.spøkelser:
             spøkelse.update()
+
 
     def draw(self,vindu:pg.Surface) -> None:
         pg.draw.rect(vindu,GREEN,self.frisone1)
