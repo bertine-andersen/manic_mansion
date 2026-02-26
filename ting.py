@@ -20,8 +20,11 @@ class Spiller:
     def treffSpøkelse(self):
         pass
 
-    def hindring(self):
-        pass
+    def hindret(self, hindringer: list[Hindring]):
+        for hindring in hindringer:
+            if self.rect.colliderect(hindring):
+                return True
+        return False
 
     def utenforKant(self) -> bool:
         if (self.rect.x < 0 or self.rect.x > VINDU_BREDDE - SPILLER_STØRRELSE
@@ -30,24 +33,24 @@ class Spiller:
         else:
             return False
 
-    def update(self):
+    def update(self, hindringer: list[Hindring]):
         keys = pg.key.get_pressed()
 
         if keys[pg.K_UP]:
             self.rect.y -= SPILLER_FART
-            if self.utenforKant():
+            if self.utenforKant() or self.hindret(hindringer):
                 self.rect.y += SPILLER_FART
         if keys[pg.K_DOWN]:
             self.rect.y += SPILLER_FART
-            if self.utenforKant():
+            if self.utenforKant() or self.hindret(hindringer):
                 self.rect.y -= SPILLER_FART
         if keys[pg.K_LEFT]:
             self.rect.x -= SPILLER_FART
-            if self.utenforKant():
+            if self.utenforKant() or self.hindret(hindringer):
                 self.rect.x += SPILLER_FART
         if keys[pg.K_RIGHT]:
             self.rect.x += SPILLER_FART
-            if self.utenforKant():
+            if self.utenforKant() or self.hindret(hindringer):
                 self.rect.x -= SPILLER_FART
 
 

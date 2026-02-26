@@ -33,7 +33,7 @@ class Spillbrett:
         pass
     
     def update(self):
-        self.spiller.update()
+        self.spiller.update(self.hindringer)
 
     def draw(self,vindu:pg.Surface) -> None:
         pg.draw.rect(vindu,GREEN,self.frisone1)
