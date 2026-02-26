@@ -21,6 +21,8 @@ class Spillbrett:
 
     hindringer = [Hindring(),Hindring(),Hindring()]
 
+    spøkelse = Spøkelse()
+
     sauer = [Sau()]
 
     def nyHindring(self):
@@ -33,7 +35,8 @@ class Spillbrett:
         pass
     
     def update(self):
-        pass
+        if self.spøkelse.kollidert:
+            self.running = True
 
     def draw(self,vindu:pg.Surface) -> None:
         pg.draw.rect(vindu,GREEN,self.frisone1)
@@ -47,3 +50,5 @@ class Spillbrett:
 
         for sau in self.sauer:
             sau.draw(vindu)
+        
+        self.spøkelse.draw(vindu)

@@ -43,18 +43,38 @@ class Sau:
 
 @dataclass(slots=True)
 class Spøkelse:
-    rect: pg.Rect
+    rect = pg.Rect(
+            rd.randint(FRISONE_BREDDE, VINDU_BREDDE - FRISONE_BREDDE - SPØKELSE_STØRRELSE),
+            rd.randint(0, VINDU_HØYDE - SPØKELSE_STØRRELSE),
+            SPØKELSE_STØRRELSE,
+            SPØKELSE_STØRRELSE
+        )
+    vx: int = 3
+    vy: int = 3
+    kollidert: bool = False
+
     
     def update(self):
-        pass
+        self.rect.x += self.vx
+        self.rect.y += self.vy
 
-    def draw(self):
-        pass
+        if self.rect.right >= VINDU_BREDDE - FRISONE_BREDDE:
+            self.vx *= -1
+        if self.rect.left <= FRISONE_BREDDE:
+            self.vx *= -1
+
+        if self.rect.bottom >= VINDU_HØYDE:
+            self.vy *= -1
+        if self.rect.top <= 0:
+            self.vy *= -1
+
+    def draw(self, vindu:pg.Surface):
+        pg.draw.rect(vindu, GREY, self.rect)
 
 class Hindring:
     def __init__(self):
         self.rect = pg.Rect(rd.randint(FRISONE_BREDDE,VINDU_BREDDE-FRISONE_BREDDE-HINDRING_STØRRELSE),
-                    rd.randint(0,VINDU_HØYDE-HINDRING_STØRRELSE),HINDRING_STØRRELSE,HINDRING_STØRRELSE)
+                            rd.randint(0,VINDU_HØYDE-HINDRING_STØRRELSE),HINDRING_STØRRELSE,HINDRING_STØRRELSE)
     
     def draw(self,vindu:pg.Surface):
         pg.draw.rect(vindu,BLACK,self.rect)
