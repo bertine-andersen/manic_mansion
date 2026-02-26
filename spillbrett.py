@@ -21,7 +21,7 @@ class Spillbrett:
 
     hindringer = [Hindring(),Hindring(),Hindring()]
 
-    spøkelse = Spøkelse()
+    spøkelser = [Spøkelse()]
 
     sauer = [Sau()]
 
@@ -35,7 +35,14 @@ class Spillbrett:
         pass
     
     def update(self):
-        self.spiller.update(self.hindringer)
+        self.spiller.update(self.hindringer, self.spøkelser)
+
+        if not self.spiller.levende:
+            self.running = False
+
+        for spøkelse in self.spøkelser:
+            spøkelse.update()
+
 
     def draw(self,vindu:pg.Surface) -> None:
         pg.draw.rect(vindu,GREEN,self.frisone1)
@@ -50,4 +57,5 @@ class Spillbrett:
         for sau in self.sauer:
             sau.draw(vindu)
         
-        self.spøkelse.draw(vindu)
+        for spøkelse in self.spøkelser:
+            spøkelse.draw(vindu)
