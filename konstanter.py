@@ -1,3 +1,8 @@
+from pathlib import Path
+
+IMAGE_DIR = Path(__file__).parent/"bilder"
+BILDE_SIZE = 64
+
 WHITE = (255, 255, 255)
 BLACK = (0,0,0)
 GREY = (170,170,170)
@@ -18,6 +23,8 @@ VINDU_HØYDE = 600
 FRISONE_BREDDE = 100
 
 SPILLER_STØRRELSE = 30
+SPILLER_FART = 10
+
 SAU_STØRRELSE = 25
 HINDRING_STØRRELSE = 40
 SPØKELSE_STØRRELSE = 40

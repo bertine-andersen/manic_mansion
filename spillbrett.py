@@ -35,8 +35,7 @@ class Spillbrett:
         pass
     
     def update(self):
-        if self.spøkelse.kollidert:
-            self.running = True
+        self.spiller.update()
 
     def draw(self,vindu:pg.Surface) -> None:
         pg.draw.rect(vindu,GREEN,self.frisone1)
