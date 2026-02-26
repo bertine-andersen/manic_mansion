@@ -32,7 +32,7 @@ class Spillbrett:
         self.sauer.append(Sau())
 
     def nyttSpøkelse(self):
-        pass
+        self.spøkelser.append(Spøkelse())
     
     def update(self):
         self.spiller.update(self.hindringer)

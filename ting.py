@@ -35,18 +35,21 @@ class Spiller:
             return False
 
     def update(self, hindringer: list[Hindring]):
+        fart = SPILLER_FART
+        if self.harSau:
+            fart = fart // 1.5
         keys = pg.key.get_pressed()
 
         if keys[pg.K_UP]:
-            self.rect.y -= SPILLER_FART
+            self.rect.y -= fart
             if self.utenforKant() or self.hindret(hindringer):
-                self.rect.y += SPILLER_FART
+                self.rect.y += fart
         if keys[pg.K_DOWN]:
-            self.rect.y += SPILLER_FART
+            self.rect.y += fart
             if self.utenforKant() or self.hindret(hindringer):
                 self.rect.y -= SPILLER_FART
         if keys[pg.K_LEFT]:
-            self.rect.x -= SPILLER_FART
+            self.rect.x -= fart
             if self.utenforKant() or self.hindret(hindringer):
                 self.rect.x += SPILLER_FART
         if keys[pg.K_RIGHT]:
