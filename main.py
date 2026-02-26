@@ -1,11 +1,12 @@
 import pygame as pg
+pg.init()
+
 from konstanter import *
 from spillbrett import Spillbrett
 
 
 spillbrett = Spillbrett()
 
-pg.init()
 vindu = pg.display.set_mode((VINDU_BREDDE,VINDU_HØYDE))
 clock = pg.time.Clock()
 

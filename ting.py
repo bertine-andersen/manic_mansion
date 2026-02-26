@@ -14,9 +14,16 @@ class Spiller:
         self.harSau: bool = False
         self.spiller_raw = pg.image.load(IMAGE_DIR / "spiller.png")
         self.spiller_img = pg.transform.scale(self.spiller_raw,(SPILLER_STØRRELSE,SPILLER_STØRRELSE))
+        self.spillerMedSau_raw = pg.image.load(IMAGE_DIR / "spillermedsau.png")
+        self.spillerMedSau_img = pg.transform.scale(self.spillerMedSau_raw,(SPILLER_STØRRELSE,SPILLER_STØRRELSE))
 
-    def plukkOpp(self):
-        pass
+    def plukkOppSau(self, sauer: list[Sau]) -> list[Sau]:
+        for sau in sauer:
+            if self.rect.colliderect(sau):
+                sauer.remove(sau)
+                self.harSau = True
+                return sauer
+        return sauer
 
     def treffSpøkelse(self, spøkelser: list[Spøkelse]):
         for spøkelse in spøkelser:
@@ -36,10 +43,11 @@ class Spiller:
         else:
             return False
 
-    def update(self, hindringer: list[Hindring], spøkelser: list[Spøkelse]):
+    def update(self, hindringer: list[Hindring], spøkelser: list[Spøkelse], sauer: list[Sau]):
         fart = SPILLER_FART
         if self.harSau:
             fart = fart // 1.5
+        
         keys = pg.key.get_pressed()
 
         if keys[pg.K_UP]:
@@ -62,7 +70,10 @@ class Spiller:
         self.treffSpøkelse(spøkelser)
 
     def draw(self,vindu: pg.Surface) -> None:
-        vindu.blit(self.spiller_img, self.rect) 
+        if self.harSau:
+            vindu.blit(self.spillerMedSau_img, self.rect) 
+        else:
+            vindu.blit(self.spiller_img, self.rect) 
 
 
 class Sau:

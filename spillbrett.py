@@ -1,29 +1,30 @@
 import pygame as pg
 from konstanter import *
-from dataclasses import dataclass
 from ting import *
 
-@dataclass(slots=True)
 class Spillbrett:
-    # Områder på spillbrettet
-    frisone1 = pg.Rect(0,0,FRISONE_BREDDE,VINDU_HØYDE)
-    faresone = pg.Rect(FRISONE_BREDDE,0,VINDU_BREDDE-2*FRISONE_BREDDE,VINDU_HØYDE)
-    frisone2 = pg.Rect(VINDU_BREDDE-FRISONE_BREDDE,0,FRISONE_BREDDE,VINDU_HØYDE)
+    def __init__(self):
+        # Områder på spillbrettet
+        self.frisone1 = pg.Rect(0,0,FRISONE_BREDDE,VINDU_HØYDE)
+        self.faresone = pg.Rect(FRISONE_BREDDE,0,VINDU_BREDDE-2*FRISONE_BREDDE,VINDU_HØYDE)
+        self.frisone2 = pg.Rect(VINDU_BREDDE-FRISONE_BREDDE,0,FRISONE_BREDDE,VINDU_HØYDE)
 
-    # Sauer plukket opp
-    poeng: int = 0
+        # Sauer plukket opp
+        self.poeng: int = 0
 
-    # Status for spillet
-    running: bool = True
+        # Status for spillet
+        self.running: bool = True
 
-    # Ting
-    spiller = Spiller()
+        # Ting
+        self.spiller = Spiller()
 
-    hindringer = [Hindring(),Hindring(),Hindring()]
+        self.hindringer: list[Hindring] = [Hindring(),Hindring(),Hindring()]
 
-    spøkelser = [Spøkelse()]
+        self.spøkelser: list[Spøkelse] = [Spøkelse()]
 
-    sauer = [Sau()]
+        self.sauer: list[Sau] = [Sau(), Sau()]
+
+        self.font = pg.font.SysFont(["arial", "helvetica"], 32)
 
     def nyHindring(self):
         self.hindringer.append(Hindring())
@@ -33,9 +34,23 @@ class Spillbrett:
 
     def nyttSpøkelse(self):
         self.spøkelser.append(Spøkelse())
+
+    def fåPoeng(self):
+        self.poeng += 1
+        self.spiller.harSau = False
+
+        self.nyHindring()
+        self.nySau()
+        self.nyttSpøkelse()
+
     
     def update(self):
-        self.spiller.update(self.hindringer, self.spøkelser)
+        self.spiller.update(self.hindringer, self.spøkelser, self.sauer)
+        if not self.spiller.harSau:
+            self.sauer = self.spiller.plukkOppSau(self.sauer)
+        else:
+            if self.frisone1.contains(self.spiller):
+                self.fåPoeng()
 
         if not self.spiller.levende:
             self.running = False
@@ -59,3 +74,9 @@ class Spillbrett:
         
         for spøkelse in self.spøkelser:
             spøkelse.draw(vindu)
+
+        tekst = self.font.render(f'Sauer reddet: {self.poeng}', True, BLACK)
+        tekstRect = tekst.get_rect()
+        tekstRect.center = (200, 30)
+
+        vindu.blit(tekst,tekstRect)
