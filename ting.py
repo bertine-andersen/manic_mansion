@@ -7,16 +7,16 @@ import random as rd
 class Spiller:
     def __init__(self) -> None:
         self.rect = pg.Rect((FRISONE_BREDDE-SPILLER_STØRRELSE)//2,
-                    (VINDU_HØYDE-SPILLER_STØRRELSE)//2,SPILLER_STØRRELSE,SPILLER_STØRRELSE)
+                    (VINDU_HØYDE-SPILLER_HØYDE)//2, SPILLER_STØRRELSE, SPILLER_HØYDE)
 
         self.levende: bool = True
         self.harSau: bool = False
 
         self.spiller_raw = pg.image.load(IMAGE_DIR / "spiller.png")
-        self.spiller_img = pg.transform.scale(self.spiller_raw,(SPILLER_STØRRELSE,SPILLER_STØRRELSE))
+        self.spiller_img = pg.transform.scale(self.spiller_raw,(SPILLER_STØRRELSE,SPILLER_HØYDE))
 
         self.spillerMedSau_raw = pg.image.load(IMAGE_DIR / "spillermedsau.png")
-        self.spillerMedSau_img = pg.transform.scale(self.spillerMedSau_raw,(SPILLER_STØRRELSE,SPILLER_STØRRELSE))
+        self.spillerMedSau_img = pg.transform.scale(self.spillerMedSau_raw,(SPILLER_STØRRELSE,SPILLER_HØYDE))
 
     def plukkOppSau(self, sauer: list[Sau]) -> list[Sau]:
         for sau in sauer:
@@ -40,7 +40,7 @@ class Spiller:
 
     def utenforKant(self) -> bool:
         if (self.rect.x < 0 or self.rect.x > VINDU_BREDDE - SPILLER_STØRRELSE
-             or  self.rect.y < 0 or self.rect.y > VINDU_HØYDE - SPILLER_STØRRELSE):
+             or  self.rect.y < 0 or self.rect.y > VINDU_HØYDE - SPILLER_HØYDE):
             return True
         else:
             return False
@@ -104,7 +104,7 @@ class Spøkelse:
         self.kollidert: bool = False
 
         self.spøkelse_raw = pg.image.load(IMAGE_DIR / "spøkelse.png")
-        self.spøkelse_img = pg.transform.scale(self.spøkelse_raw,(SPILLER_STØRRELSE,SPØKELSE_STØRRELSE))
+        self.spøkelse_img = pg.transform.scale(self.spøkelse_raw,(SPØKELSE_STØRRELSE,SPØKELSE_STØRRELSE))
     
     def update(self) -> None:
         self.rect.x += self.vx
