@@ -124,8 +124,15 @@ class Spøkelse:
         self.vy: int = 3
         self.kollidert: bool = False
 
+        # Justerer recten til bildet for å passe med kollisjonsrecten
+        self.imgRect = self.rect.copy()
+        self.imgRect.width = self.rect.width * 1.7
+        self.imgRect.height = self.rect.height * 1.7
+        self.imgRect.center = self.rect.center
+        self.imgRect.y -= 5
+
         self.spøkelse_raw = pg.image.load(IMAGE_DIR / "spøkelse.png")
-        self.spøkelse_left = pg.transform.scale(self.spøkelse_raw, (SPØKELSE_STØRRELSE, SPØKELSE_STØRRELSE))
+        self.spøkelse_left = pg.transform.scale(self.spøkelse_raw, (self.imgRect.width, self.imgRect.height))
         self.spøkelse_right = pg.transform.flip(self.spøkelse_left, True, False)
     
     def update(self) -> None:
@@ -142,12 +149,19 @@ class Spøkelse:
         if self.rect.top <= 0:
             self.vy *= -1
 
+        # Justerer recten til bildet for å passe med kollisjonsrecten
+        self.imgRect = self.rect.copy()
+        self.imgRect.width = self.rect.width * 1.7
+        self.imgRect.height = self.rect.height * 1.7
+        self.imgRect.center = self.rect.center
+        self.imgRect.y -= 5
+
     def draw(self, vindu:pg.Surface) -> None:
         if self.vx > 0:
             bilde = self.spøkelse_right
         else:
             bilde = self.spøkelse_left
-        vindu.blit(bilde, self.rect)
+        vindu.blit(bilde, self.imgRect)
 
 
 class Hindring:
