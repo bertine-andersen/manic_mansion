@@ -117,7 +117,7 @@ class Spillbrett:
             pg.draw.rect(vindu, WHITE, boks)
             pg.draw.rect(vindu, BLACK, boks, 3)
 
-            tekst1 = self.gameOverFont.render("GAME OVER", True, BLACK)
+            tekst1 = self.gameOverFont.render("GAME OVER", True, RED)
             tekst2 = self.font.render(f"Sauer reddet: {self.poeng}", True, BLACK)
             tekst3 = self.font.render("Klikk her for å spille igjen", True, BLACK)
             tekst4 = self.font.render("Klikk her for å avslutte", True, BLACK)
