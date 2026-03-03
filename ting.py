@@ -12,11 +12,18 @@ class Spiller:
         self.levende: bool = True
         self.harSau: bool = False
 
+        
         self.spiller_raw = pg.image.load(IMAGE_DIR / "spiller.png")
-        self.spiller_img = pg.transform.scale(self.spiller_raw,(SPILLER_STØRRELSE,SPILLER_HØYDE))
-
         self.spillerMedSau_raw = pg.image.load(IMAGE_DIR / "spillermedsau.png")
-        self.spillerMedSau_img = pg.transform.scale(self.spillerMedSau_raw,(SPILLER_STØRRELSE,SPILLER_HØYDE))
+
+        self.spiller_left = pg.transform.scale(self.spiller_raw, (SPILLER_STØRRELSE, SPILLER_HØYDE))
+        self.spiller_right  = pg.transform.flip(self.spiller_left, True, False)
+
+        self.spillerMedSau_left = pg.transform.scale(self.spillerMedSau_raw, (SPILLER_STØRRELSE, SPILLER_HØYDE))
+        self.spillerMedSau_right  = pg.transform.flip(self.spillerMedSau_left, True, False)
+
+        self.retning = "right"
+        self.spiller_img = self.spiller_right
 
     def plukkOppSau(self, sauer: list[Sau]) -> list[Sau]:
         for sau in sauer:
@@ -61,21 +68,31 @@ class Spiller:
             if self.utenforKant() or self.hindret(hindringer):
                 self.rect.y -= SPILLER_FART
         if keys[pg.K_LEFT]:
+            self.retning = "left"
             self.rect.x -= fart
             if self.utenforKant() or self.hindret(hindringer):
                 self.rect.x += SPILLER_FART
         if keys[pg.K_RIGHT]:
+            self.retning = "right"
             self.rect.x += SPILLER_FART
             if self.utenforKant() or self.hindret(hindringer):
                 self.rect.x -= SPILLER_FART
 
         self.treffSpøkelse(spøkelser)
 
-    def draw(self,vindu: pg.Surface) -> None:
+    def draw(self, vindu: pg.Surface) -> None:
         if self.harSau:
-            vindu.blit(self.spillerMedSau_img, self.rect) 
+            if self.retning == "right":
+                bilde = self.spillerMedSau_right
+            else:
+                bilde = self.spillerMedSau_left
         else:
-            vindu.blit(self.spiller_img, self.rect) 
+            if self.retning == "right":
+                bilde = self.spiller_right
+            else:
+                bilde= self.spiller_left
+
+        vindu.blit(bilde, self.rect) 
 
 
 class Sau:
@@ -104,7 +121,8 @@ class Spøkelse:
         self.kollidert: bool = False
 
         self.spøkelse_raw = pg.image.load(IMAGE_DIR / "spøkelse.png")
-        self.spøkelse_img = pg.transform.scale(self.spøkelse_raw,(SPØKELSE_STØRRELSE,SPØKELSE_STØRRELSE))
+        self.spøkelse_left = pg.transform.scale(self.spøkelse_raw, (SPØKELSE_STØRRELSE, SPØKELSE_STØRRELSE))
+        self.spøkelse_right = pg.transform.flip(self.spøkelse_left, True, False)
     
     def update(self) -> None:
         self.rect.x += self.vx
@@ -121,7 +139,11 @@ class Spøkelse:
             self.vy *= -1
 
     def draw(self, vindu:pg.Surface) -> None:
-        vindu.blit(self.spøkelse_img, self.rect)
+        if self.vx > 0:
+            bilde = self.spøkelse_right
+        else:
+            bilde = self.spøkelse_left
+        vindu.blit(bilde, self.rect)
 
 
 class Hindring:
