@@ -124,11 +124,10 @@ class Spøkelse:
         self.vy: int = 3
         self.kollidert: bool = False
 
-        # Justerer recten til bildet for å passe med kollisjonsrecten
-        self.imgRect = self.rect.copy()
+        # Brukes i update
+        self.imgRect = pg.Rect(0,0,0,0)
         self.imgRect.width = self.rect.width * 1.7
         self.imgRect.height = self.rect.height * 1.7
-        self.imgRect.center = self.rect.center
         self.imgRect.y -= 5
 
         self.spøkelse_raw = pg.image.load(IMAGE_DIR / "spøkelse.png")
@@ -149,18 +148,13 @@ class Spøkelse:
         if self.rect.top <= 0:
             self.vy *= -1
 
-        # Justerer recten til bildet for å passe med kollisjonsrecten
-        self.imgRect = self.rect.copy()
-        self.imgRect.width = self.rect.width * 1.7
-        self.imgRect.height = self.rect.height * 1.7
-        self.imgRect.center = self.rect.center
-        self.imgRect.y -= 5
-
     def draw(self, vindu:pg.Surface) -> None:
         if self.vx > 0:
             bilde = self.spøkelse_right
         else:
             bilde = self.spøkelse_left
+
+        self.imgRect.center = self.rect.center
         vindu.blit(bilde, self.imgRect)
 
 
