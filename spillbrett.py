@@ -26,6 +26,8 @@ class Spillbrett:
         self.reddaSauer: list[Sau] = []
 
         self.font = pg.font.SysFont(["arial", "helvetica"], 32)
+        self.gameOverFont = pg.font.SysFont(["arial", "helvetica"], 50)
+
 
         #Bakgrunnsbilder
         # Frisone
@@ -59,7 +61,11 @@ class Spillbrett:
 
     
     def update(self) -> None:
+        if not self.running:
+            return None
+        
         self.spiller.update(self.hindringer, self.spøkelser, self.sauer)
+        
         if not self.spiller.harSau:
             self.sauer = self.spiller.plukkOppSau(self.sauer)
         else:
@@ -94,6 +100,40 @@ class Spillbrett:
 
         tekst = self.font.render(f'Sauer reddet: {self.poeng}', True, BLACK)
         tekstRect = tekst.get_rect()
-        tekstRect.center = (200, 30)
+        tekstRect.center = (230, 30)
+        pg.draw.rect(vindu, WHITE, tekstRect)
 
         vindu.blit(tekst,tekstRect)
+
+        if not self.running:
+            overlay = pg.Surface((VINDU_BREDDE, VINDU_HØYDE))
+            overlay.set_alpha(100)
+            overlay.fill((0, 0, 0))
+            vindu.blit(overlay, (0, 0))
+
+            boks = pg.Rect(300, 150, 400, 250)
+            pg.draw.rect(vindu, WHITE, boks)
+            pg.draw.rect(vindu, BLACK, boks, 3)
+
+            tekst1 = self.gameOverFont.render("GAME OVER", True, BLACK)
+            tekst2 = self.font.render(f"Sauer reddet: {self.poeng}", True, BLACK)
+            tekst3 = self.font.render("Klikk her for restart", True, BLACK)
+            tekst4 = self.font.render("Klikk nederst for avslutt", True, BLACK)
+
+            tekst1Rect = tekst1.get_rect()
+            tekst2Rect = tekst2.get_rect()
+            tekst3Rect = tekst3.get_rect()
+            tekst4Rect = tekst4.get_rect()
+
+            tekst1Rect.center = (VINDU_BREDDE//2, 200)
+            tekst2Rect.center = (VINDU_BREDDE//2, 250)
+            tekst3Rect.center = (VINDU_BREDDE//2, 300)
+            tekst4Rect.center = (VINDU_BREDDE//2, 350)
+
+            vindu.blit(tekst1, tekst1Rect)
+            vindu.blit(tekst2, tekst2Rect)
+            vindu.blit(tekst3, tekst3Rect)
+            vindu.blit(tekst4, tekst4Rect)
+
+            self.restart_rect = pg.Rect(350, 290, 300, 40)
+            self.avslutt_rect = pg.Rect(350, 330, 300, 40)
