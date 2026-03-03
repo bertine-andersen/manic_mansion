@@ -5,9 +5,9 @@ from ting import *
 class Spillbrett:
     def __init__(self) -> None:
         # Områder på spillbrettet
-        self.frisone1 = pg.Rect(0,0,FRISONE_BREDDE,VINDU_HØYDE)
+        self.startsone = pg.Rect(0,0,FRISONE_BREDDE,VINDU_HØYDE)
         self.faresone = pg.Rect(FRISONE_BREDDE,0,VINDU_BREDDE-2*FRISONE_BREDDE,VINDU_HØYDE)
-        self.frisone2 = pg.Rect(VINDU_BREDDE-FRISONE_BREDDE,0,FRISONE_BREDDE,VINDU_HØYDE)
+        self.sauSone = pg.Rect(VINDU_BREDDE-FRISONE_BREDDE,0,FRISONE_BREDDE,VINDU_HØYDE)
 
         # Sauer plukket opp
         self.poeng: int = 0
@@ -49,7 +49,7 @@ class Spillbrett:
         if not self.spiller.harSau:
             self.sauer = self.spiller.plukkOppSau(self.sauer)
         else:
-            if self.frisone1.contains(self.spiller):
+            if self.startsone.contains(self.spiller):
                 self.fåPoeng()
 
         if not self.spiller.levende:
@@ -60,9 +60,9 @@ class Spillbrett:
 
 
     def draw(self,vindu:pg.Surface) -> None:
-        pg.draw.rect(vindu,GREEN,self.frisone1)
+        pg.draw.rect(vindu,GREEN,self.startsone)
         pg.draw.rect(vindu,WHITE,self.faresone)
-        pg.draw.rect(vindu,GREEN,self.frisone2)
+        pg.draw.rect(vindu,GREEN,self.sauSone)
 
         self.spiller.draw(vindu)
 

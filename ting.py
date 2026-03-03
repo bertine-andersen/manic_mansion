@@ -82,7 +82,7 @@ class Sau:
     def __init__(self) -> None:
         self.rect = pg.Rect(VINDU_BREDDE-(FRISONE_BREDDE+SAU_STØRRELSE)//2,
                     rd.randint(0,VINDU_HØYDE-SAU_STØRRELSE),SAU_STØRRELSE,SAU_STØRRELSE)
-        self.plukketOpp: bool = False
+        
         self.sau_raw = pg.image.load(IMAGE_DIR / "sau.png")
         self.sau_img = pg.transform.scale(self.sau_raw,(SAU_STØRRELSE,SAU_STØRRELSE))
 
