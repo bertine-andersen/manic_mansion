@@ -82,7 +82,7 @@ class Sau:
     def __init__(self) -> None:
         self.rect = pg.Rect(VINDU_BREDDE-(FRISONE_BREDDE+SAU_STØRRELSE)//2,
                     rd.randint(0,VINDU_HØYDE-SAU_STØRRELSE),SAU_STØRRELSE,SAU_STØRRELSE)
-        self.plukketOpp: bool = False
+        
         self.sau_raw = pg.image.load(IMAGE_DIR / "sau.png")
         self.sau_img = pg.transform.scale(self.sau_raw,(SAU_STØRRELSE,SAU_STØRRELSE))
 
@@ -128,8 +128,15 @@ class Hindring:
     def __init__(self) -> None:
         self.rect = pg.Rect(rd.randint(FRISONE_BREDDE,VINDU_BREDDE-FRISONE_BREDDE-HINDRING_STØRRELSE),
                     rd.randint(0,VINDU_HØYDE-HINDRING_STØRRELSE),HINDRING_STØRRELSE,HINDRING_STØRRELSE)
+        
+        self.imgRect = self.rect.copy()
+        self.imgRect.width = self.rect.width * 1.7
+        self.imgRect.height = self.rect.height * 1.7
+        self.imgRect.center = self.rect.center
+        self.imgRect.y -= 5
+
         self.stein_raw = pg.image.load(IMAGE_DIR / "stein.png")
-        self.stein_img = pg.transform.scale(self.stein_raw,(HINDRING_STØRRELSE,HINDRING_STØRRELSE))
+        self.stein_img = pg.transform.scale(self.stein_raw,(self.imgRect.height,self.imgRect.width))
     
     def draw(self,vindu:pg.Surface) -> None:
-        vindu.blit(self.stein_img, self.rect)
+        vindu.blit(self.stein_img, self.imgRect)
