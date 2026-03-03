@@ -10,12 +10,21 @@ spillbrett = Spillbrett()
 vindu = pg.display.set_mode((VINDU_BREDDE,VINDU_HØYDE))
 clock = pg.time.Clock()
 
-while spillbrett.running:
+running = True
+while running:
     for event in pg.event.get():
         if event.type == pg.QUIT:
-            spillbrett.running = False
+            running = False
         elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-            spillbrett.running = False
+            running = False
+        elif event.type == pg.MOUSEBUTTONDOWN:
+            if not spillbrett.running:
+
+                if spillbrett.restart_rect.collidepoint(event.pos):
+                    spillbrett.__init__()
+
+                if spillbrett.avslutt_rect.collidepoint(event.pos):
+                    running = False
 
     # Tegner objektene våre (på et blankt hvitt lerret):
     vindu.fill(WHITE)
