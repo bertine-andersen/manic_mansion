@@ -79,9 +79,13 @@ class Spiller:
 
 
 class Sau:
-    def __init__(self) -> None:
-        self.rect = pg.Rect(VINDU_BREDDE-(FRISONE_BREDDE+SAU_STØRRELSE)//2,
-                    rd.randint(0,VINDU_HØYDE-SAU_STØRRELSE),SAU_STØRRELSE,SAU_STØRRELSE)
+    def __init__(self, banedel: pg.Rect) -> None:
+        #Finner ut om sauen skal plasseres i midten av startsonen eller sausonen (litt overkomplisert)
+        xMuligheter = (FRISONE_BREDDE//2-SAU_STØRRELSE//2, VINDU_BREDDE-FRISONE_BREDDE//2-SAU_STØRRELSE//2)
+        xKord = min(xMuligheter, key=lambda x: abs(x - banedel.centerx))
+
+        self.rect = pg.Rect(xKord,
+                    rd.randint(banedel.top+SAU_STØRRELSE//2,banedel.bottom-SAU_STØRRELSE//2),SAU_STØRRELSE,SAU_STØRRELSE)
         
         self.sau_raw = pg.image.load(IMAGE_DIR / "sau.png")
         self.sau_img = pg.transform.scale(self.sau_raw,(SAU_STØRRELSE,SAU_STØRRELSE))

@@ -22,7 +22,8 @@ class Spillbrett:
 
         self.spøkelser: list[Spøkelse] = [Spøkelse()]
 
-        self.sauer: list[Sau] = [Sau(), Sau()]
+        self.sauer: list[Sau] = [Sau(self.sauSone), Sau(self.sauSone)]
+        self.reddaSauer: list[Sau] = []
 
         self.font = pg.font.SysFont(["arial", "helvetica"], 32)
 
@@ -30,7 +31,10 @@ class Spillbrett:
         self.hindringer.append(Hindring())
 
     def nySau(self) -> None:
-        self.sauer.append(Sau())
+        self.sauer.append(Sau(self.sauSone))
+
+    def reddetSau(self) -> None:
+        self.reddaSauer.append(Sau(self.spiller.rect))
 
     def nyttSpøkelse(self) -> None:
         self.spøkelser.append(Spøkelse())
@@ -41,6 +45,7 @@ class Spillbrett:
 
         self.nyHindring()
         self.nySau()
+        self.reddetSau()
         self.nyttSpøkelse()
 
     
@@ -70,6 +75,9 @@ class Spillbrett:
             hindring.draw(vindu)
 
         for sau in self.sauer:
+            sau.draw(vindu)
+
+        for sau in self.reddaSauer:
             sau.draw(vindu)
         
         for spøkelse in self.spøkelser:
