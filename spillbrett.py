@@ -27,6 +27,15 @@ class Spillbrett:
 
         self.font = pg.font.SysFont(["arial", "helvetica"], 32)
 
+        #Bakgrunnsbilder
+        # Frisone
+        self.frisone_raw = pg.image.load(IMAGE_DIR / "frisoneBakgrunn.png")
+        self.frisone_img = pg.transform.scale(self.frisone_raw,(FRISONE_BREDDE, VINDU_HØYDE))
+
+        # Faresone
+        self.faresone_raw = pg.image.load(IMAGE_DIR / "faresoneBakgrunn.png")
+        self.faresone_img = pg.transform.scale(self.faresone_raw,(VINDU_BREDDE - 2*FRISONE_BREDDE, VINDU_HØYDE))
+
     def nyHindring(self) -> None:
         self.hindringer.append(Hindring())
 
@@ -65,9 +74,9 @@ class Spillbrett:
 
 
     def draw(self,vindu:pg.Surface) -> None:
-        pg.draw.rect(vindu,GREEN,self.startsone)
-        pg.draw.rect(vindu,WHITE,self.faresone)
-        pg.draw.rect(vindu,GREEN,self.sauSone)
+        vindu.blit(self.frisone_img, self.startsone)
+        vindu.blit(self.faresone_img, self.faresone)
+        vindu.blit(self.frisone_img, self.sauSone)
 
         self.spiller.draw(vindu)
 
