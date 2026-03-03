@@ -59,15 +59,15 @@ class Spiller:
         if keys[pg.K_DOWN]:
             self.rect.y += fart
             if self.utenforKant() or self.hindret(hindringer):
-                self.rect.y -= SPILLER_FART
+                self.rect.y -= fart
         if keys[pg.K_LEFT]:
             self.rect.x -= fart
             if self.utenforKant() or self.hindret(hindringer):
-                self.rect.x += SPILLER_FART
+                self.rect.x += fart
         if keys[pg.K_RIGHT]:
-            self.rect.x += SPILLER_FART
+            self.rect.x += fart
             if self.utenforKant() or self.hindret(hindringer):
-                self.rect.x -= SPILLER_FART
+                self.rect.x -= fart
 
         self.treffSpøkelse(spøkelser)
 
@@ -133,6 +133,7 @@ class Hindring:
         self.rect = pg.Rect(rd.randint(FRISONE_BREDDE,VINDU_BREDDE-FRISONE_BREDDE-HINDRING_STØRRELSE),
                     rd.randint(0,VINDU_HØYDE-HINDRING_STØRRELSE),HINDRING_STØRRELSE,HINDRING_STØRRELSE)
         
+        # Justerer recten til bildet for å passe med kollisjonsrecten
         self.imgRect = self.rect.copy()
         self.imgRect.width = self.rect.width * 1.7
         self.imgRect.height = self.rect.height * 1.7
