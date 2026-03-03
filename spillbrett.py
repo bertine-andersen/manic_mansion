@@ -98,12 +98,14 @@ class Spillbrett:
         for spøkelse in self.spøkelser:
             spøkelse.draw(vindu)
 
+        '''
         tekst = self.font.render(f'Sauer reddet: {self.poeng}', True, BLACK)
         tekstRect = tekst.get_rect()
         tekstRect.center = (230, 30)
         pg.draw.rect(vindu, WHITE, tekstRect)
 
         vindu.blit(tekst,tekstRect)
+        '''
 
         if not self.running:
             overlay = pg.Surface((VINDU_BREDDE, VINDU_HØYDE))
@@ -117,8 +119,8 @@ class Spillbrett:
 
             tekst1 = self.gameOverFont.render("GAME OVER", True, BLACK)
             tekst2 = self.font.render(f"Sauer reddet: {self.poeng}", True, BLACK)
-            tekst3 = self.font.render("Klikk her for restart", True, BLACK)
-            tekst4 = self.font.render("Klikk nederst for avslutt", True, BLACK)
+            tekst3 = self.font.render("Klikk her for å spille igjen", True, BLACK)
+            tekst4 = self.font.render("Klikk her for å avslutte", True, BLACK)
 
             tekst1Rect = tekst1.get_rect()
             tekst2Rect = tekst2.get_rect()
@@ -135,5 +137,6 @@ class Spillbrett:
             vindu.blit(tekst3, tekst3Rect)
             vindu.blit(tekst4, tekst4Rect)
 
-            self.restart_rect = pg.Rect(350, 290, 300, 40)
-            self.avslutt_rect = pg.Rect(350, 330, 300, 40)
+
+            self.restart_rect = tekst3Rect
+            self.avslutt_rect = tekst4Rect
